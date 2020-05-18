@@ -304,7 +304,7 @@ function get_info_from_net(){
     if [ $? -ne 0 -o -z $ocserv_hostname ]; then
         ocserv_hostname=`dig +short +tcp myip.opendns.com @resolver1.opendns.com`
     fi
-    OC_version_latest=$(curl -s "http://www.infradead.org/ocserv/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p')
+    OC_version_latest=$(curl -sL "http://ocserv.gitlab.io/www/download.html" | sed -n 's/^.*version is <b>\(.*$\)/\1/p')
 }
 
 function get_Custom_configuration(){
@@ -383,7 +383,7 @@ function tar_lz4_install(){
     print_info "Installing lz4 from github"
     DEBIAN_FRONTEND=noninteractive apt-get -y -qq remove --purge liblz4-dev
     mkdir lz4
-    LZ4_VERSION=`curl -sL "https://github.com/Cyan4973/lz4/releases/latest" | sed -n 's/^.*tag\/\(.*\)".*/\1/p'` 
+    LZ4_VERSION=`curl -sL "https://github.com/Cyan4973/lz4/releases/latest" | sed -n 's/^.*tag\/\([^"]*\).*/\1/p' | head -n1` 
     curl -SL "https://github.com/Cyan4973/lz4/archive/$LZ4_VERSION.tar.gz" -o lz4.tar.gz
     tar -xf lz4.tar.gz -C lz4 --strip-components=1 
     rm lz4.tar.gz 
@@ -966,7 +966,7 @@ function surport_Syscodename(){
     oc_D_V=$(lsb_release -c -s)
     [ "$oc_D_V" = "wheezy" ] && return 0
     [ "$oc_D_V" = "jessie" ] && return 0
-    #[ "$oc_D_V" = "stretch" ] && return 0
+    [ "$oc_D_V" = "stretch" ] && return 0
     [ "$oc_D_V" = "trusty" ] && return 0
     [ "$oc_D_V" = "utopic" ] && return 0
     [ "$oc_D_V" = "vivid" ] && return 0

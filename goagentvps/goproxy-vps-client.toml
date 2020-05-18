@@ -1,0 +1,11 @@
+[default]
+log_level = 2
+reject_nil_sni = false
+daemon_stderr = "./goproxy-vps.log"
+
+
+[http]
+listen = ":8087"
+#parent_proxy = "https+h2://"
+#parent_proxy = "https://"
+parent_proxy = "quic://my.dot"
